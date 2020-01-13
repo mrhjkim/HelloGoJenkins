@@ -6,6 +6,7 @@ all: build
 make_report_dir:
 	mkdir -p reports
 	mkdir -p reports/unittest
+	mkdir -p reports/coverage
 
 lint: ## Lint the files
 	@golint -set_exit_status ${PKG_LIST}
@@ -32,13 +33,13 @@ coverage: install_dep_cover ## Generate global code coverage report
 	@go-acc ./...
 
 coverhtml: coverage ## Generate global code coverage report in HTML
-	@go tool cover -html=coverage.txt -o coverage.html
+	@go tool cover -html=coverage.txt -o reports/coverage/coverage.html
 
 dep_coverjenkins: ## converting tool for cobertura
 	@go get github.com/t-yuki/gocover-cobertura
 
 coverjenkins: coverage dep_coverjenkins ## converting coverage data to cobertura format
-	gocover-cobertura < coverage.txt > coverage.xml
+	gocover-cobertura < coverage.txt > reports/coverage/coverage.xml
 
 dep: ## Get the dependencies
 	@go get -v -d ./...
