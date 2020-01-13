@@ -3,6 +3,7 @@ node {
 	withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin:${HOME}/go/bin"]) {
 		stage('Checkout'){
 			echo 'Checking out SCM'
+			office365ConnectorSend message: "checkout", status:"started", webhookUrl:'https://outlook.office.com/webhook/312bb46b-563d-4a01-98b3-19a6af343ee4@13a84ba8-5a74-4cdf-a639-57395cf71a8f/JenkinsCI/989bf646578b4ae7b4292217cc784740/26be0387-a489-467b-bfe7-e257962735fd'
 			checkout scm
 		}
 
