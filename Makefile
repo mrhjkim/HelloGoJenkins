@@ -13,8 +13,8 @@ junittest_dep: ## install junit test dependency
 	@go get github.com/jstemmer/go-junit-report
 
 junittest: junittest_dep ## Run unittests and generate junit reports
-	echo $GOPATH
-	echo $GOROOT
+	echo ${GOPATH}
+	echo ${GOROOT}
 	@go test -v ${PKG_LIST} 2>&1 | go-junit-report > reports/unittest/report.xml
 
 race: dep ## Run data race detector
