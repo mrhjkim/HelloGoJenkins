@@ -3,18 +3,20 @@ GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
 .PHONY: all dep build clean test coverage coverhtml lint
 all: build
 
+make_report_dir:
+	mkdir -p reports
+	mkdir -p reports/unittest
+
 lint: ## Lint the files
 	@golint -set_exit_status ${PKG_LIST}
 
 test: ## Run unittests
 	@go test -short ${PKG_LIST}
 
-junittest_dep: ## install junit test dependency
+install_junittest_dep: ## install junit test dependency
 	@go get github.com/jstemmer/go-junit-report
 
-junittest: junittest_dep ## Run unittests and generate junit reports
-	echo ${GOPATH}
-	echo ${GOROOT}
+junittest: install_junittest_dep make_report_dir ## Run unittests and generate junit reports
 	@go test -v ${PKG_LIST} 2>&1 | go-junit-report > reports/unittest/report.xml
 
 race: dep ## Run data race detector
@@ -23,10 +25,10 @@ race: dep ## Run data race detector
 msan: dep ## Run memory sanitizer
 	@go test -msan -short ${PKG_LIST}
 
-dep_cover: ## coverage dependency
+install_dep_cover: ## coverage dependency
 	@go get github.com/ory/go-acc
 
-coverage: dep_cover ## Generate global code coverage report
+coverage: install_dep_cover ## Generate global code coverage report
 	@go-acc ./...
 
 coverhtml: coverage ## Generate global code coverage report in HTML
