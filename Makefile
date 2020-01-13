@@ -9,6 +9,12 @@ lint: ## Lint the files
 test: ## Run unittests
 	@go test -short ${PKG_LIST}
 
+junittest_dep: ## install junit test dependency
+	@go get github.com/jstemmer/go-junit-report
+
+junittest: junittest_dep ## Run unittests and generate junit reports
+	go test -v ${PKG_LIST} 2>&1 | go-junit-report > reports/unittest/report.xml
+
 race: dep ## Run data race detector
 	@go test -race -short ${PKG_LIST}
 
@@ -24,10 +30,10 @@ coverage: dep_cover ## Generate global code coverage report
 coverhtml: coverage ## Generate global code coverage report in HTML
 	@go tool cover -html=coverage.txt -o coverage.html
 
-dep_coverjenkins: # converting tool for cobertura
+dep_coverjenkins: ## converting tool for cobertura
 	@go get github.com/t-yuki/gocover-cobertura
 
-coverjenkins: coverage dep_coverjenkins
+coverjenkins: coverage dep_coverjenkins ## converting coverage data to cobertura format
 	gocover-cobertura < coverage.txt > coverage.xml
 
 dep: ## Get the dependencies
