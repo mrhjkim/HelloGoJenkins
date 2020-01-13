@@ -21,5 +21,10 @@ node {
 			sh 'make junittest'
 			junit 'reports/unittest/*.xml'
 		}
+
+		stage('Coverage Report'){
+			echo 'Generating Coverage Report'
+			sh 'make coverjenkins'
+		}
 	}	
 }
