@@ -18,7 +18,7 @@ node {
 
 		stage('Test'){
 			echo 'Test'
-			sh 'make test'
+			sh 'make junittest'
 			junit 'reports/unittest/*.xml'
 		}
 	}	
