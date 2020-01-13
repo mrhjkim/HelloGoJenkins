@@ -1,6 +1,6 @@
 node {
 	def root = tool name: 'Go 1.13', type: 'go'
-	withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin"]) {
+	withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin:${HOME}/go/bin"]) {
 		stage('Checkout'){
 			echo 'Checking out SCM'
 			checkout scm
