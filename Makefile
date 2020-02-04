@@ -8,6 +8,8 @@ make_report_dir:
 	mkdir -p reports/unittest
 	mkdir -p reports/coverage
 
+get_lint_dep: ## get lint dep
+	@go get golang.org/x/lint/golint
 lint: ## Lint the files
 	@golint -set_exit_status ${PKG_LIST}
 
